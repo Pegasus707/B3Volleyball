@@ -1,7 +1,8 @@
-// --- THEME TOGGLE LOGIC ---
+// --- 1. THEME TOGGLE LOGIC ---
 const themeToggleBtn = document.getElementById('theme-toggle');
 const currentTheme = localStorage.getItem('b3-theme');
 
+// Apply saved theme immediately
 if (currentTheme === 'light') {
     document.body.classList.add('light-mode');
     if(themeToggleBtn) themeToggleBtn.textContent = '🌙';
@@ -22,74 +23,74 @@ if (themeToggleBtn) {
     });
 }
 
-// --- B3 MASTER ROSTER DATA ---
+// --- 2. B3 MASTER ROSTER DATA (With Traits) ---
 const b3Roster = [
     { 
-        name: "Tanmay Waghmare", 
-        ovr: 92, 
+        name: "Tanmay Waghmare", ovr: 92, 
         bio: "The main attacking force of B3. His heavy spikes are expertly placed to break right through the opponent's block.", 
         stats: [95, 62, 75, 80], 
+        traits: ['Cannon Arm', 'Clutch'],
         image: "images/tanmay.png" 
     },
     { 
-        name: "Archit Surve", 
-        ovr: 94, 
+        name: "Archit Surve", ovr: 94, 
         bio: "The defensive wall. He reads the court perfectly and specializes in digging up 'impossible' spikes to keep the rally alive.", 
         stats: [45, 99, 88, 95], 
+        traits: ['Brick Wall', 'Court General'],
         image: "images/archit.png" 
     },
     { 
-        name: "Dhruv Rohinikar", 
-        ovr: 90, 
+        name: "Dhruv Rohinikar", ovr: 90, 
         bio: "A perfect balance of attack and defense. A highly reliable spiker who can seamlessly transition into a steady receiver.", 
         stats: [88, 86, 82, 84], 
+        traits: ['All-Rounder', 'Consistent'],
         image: "images/dhruv.png" 
     },
     { 
-        name: "Varun Shinde", 
-        ovr: 89, 
+        name: "Varun Shinde", ovr: 89, 
         bio: "An aggressive frontline spiker. His main job is to convert tight sets near the net into guaranteed points.", 
         stats: [92, 65, 70, 78], 
+        traits: ['Net Enforcer', 'Finisher'],
         image: "images/varun.png" 
     },
     { 
-        name: "Aryan Patil", 
-        ovr: 88, 
+        name: "Aryan Patil", ovr: 88, 
         bio: "Known for his high vertical jump and lightning-fast spikes. He dictates the pace of a fast-tempo game.", 
         stats: [90, 68, 72, 85], 
+        traits: ['Airborne', 'Quick Tempo'],
         image: "images/aryan.png" 
     },
     { 
-        name: "Sahil Satpute", 
-        ovr: 87, 
+        name: "Sahil Satpute", ovr: 87, 
         bio: "The receiving specialist. He absorbs heavy serves and delivers them with pinpoint accuracy right to the setter.", 
         stats: [50, 94, 85, 82], 
+        traits: ['Laser Pass', 'Anchor'],
         image: "images/sahil.png" 
     },
     { 
-        name: "Rishikesh", 
-        ovr: 91, 
+        name: "Rishikesh", ovr: 91, 
         bio: "The ultimate utility player. Whether stepping up as a clutch spiker or a secondary libero, he delivers under pressure.", 
         stats: [86, 92, 78, 88], 
+        traits: ['Utility Knife', 'Ice Cold'],
         image: "images/rishikesh.png" 
     },
     { 
-        name: "Soham Loke", 
-        ovr: 88, 
+        name: "Soham Loke", ovr: 88, 
         bio: "A pure power hitter. His swing is designed to put maximum pressure on the opponent's backcourt defense.", 
         stats: [94, 60, 68, 82], 
+        traits: ['Powerhouse', 'Intimidator'],
         image: "images/Soham.png" 
     },
     { 
-        name: "Vedant Nage", 
-        ovr: 87, 
+        name: "Vedant Nage", ovr: 87, 
         bio: "A high-energy spiker. His fast-paced approach and aggressive swings make him incredibly hard to time for a block.", 
         stats: [91, 64, 72, 84], 
+        traits: ['High Energy', 'Unpredictable'],
         image: "images/vedant.png" 
     }
 ];
 
-// --- 1. HOME PAGE LOGIC (Carousel) ---
+// --- 3. HOME PAGE LOGIC (Carousel) ---
 const heroCarousel = document.getElementById('hero-carousel');
 if (heroCarousel) {
     const slides = document.querySelectorAll('.carousel-slide');
@@ -100,10 +101,10 @@ if (heroCarousel) {
         currentSlide = (currentSlide + 1) % slides.length;
         slides[currentSlide].classList.add('active');
     }
-    setInterval(nextSlide, 5000);
+    setInterval(nextSlide, 5000); // Rotates every 5 seconds
 }
 
-// --- 2. SQUAD PAGE LOGIC (Square Grid & Modal) ---
+// --- 4. SQUAD PAGE LOGIC (Grid & 3D Modal) ---
 const squadGrid = document.getElementById('squad-grid');
 if (squadGrid) {
     const modalOverlay = document.getElementById('player-modal');
@@ -111,7 +112,7 @@ if (squadGrid) {
     const modalCardContainer = document.getElementById('modal-card-container');
     let currentChart = null;
 
-    // Render Square Portraits
+    // Render the Square Portraits Grid
     function renderGrid() {
         b3Roster.forEach((player, index) => {
             const squareHTML = `
@@ -127,16 +128,23 @@ if (squadGrid) {
         });
     }
 
-    // Open Modal Function
+    // Open Modal, Inject Traits, Draw Chart, and Init 3D Tilt
     window.openPlayerCard = function(index) {
         const player = b3Roster[index];
+        
+        // Generate the HTML for the traits
+        const traitsHTML = player.traits.map(trait => `<span class="trait-badge">${trait}</span>`).join('');
+
         modalCardContainer.innerHTML = `
-            <div class="player-card">
+            <div class="player-card" id="tilt-card">
                 <div class="card-image" style="background-image: url('${player.image}');"></div>
                 <div class="card-content">
                     <div class="card-header">
                         <h3 class="player-name">${player.name}</h3>
                         <div class="ovr-badge">${player.ovr} OVR</div>
+                    </div>
+                    <div class="player-traits">
+                        ${traitsHTML}
                     </div>
                     <p class="bio">${player.bio}</p>
                     <div class="chart-container">
@@ -145,14 +153,26 @@ if (squadGrid) {
                 </div>
             </div>
         `;
+        
         modalOverlay.classList.remove('hidden');
         drawChart(player);
+
+        // Initialize the VanillaTilt 3D Effect
+        if (typeof VanillaTilt !== 'undefined') {
+            VanillaTilt.init(document.querySelector("#tilt-card"), {
+                max: 12,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.25,
+                scale: 1.02
+            });
+        }
     };
 
-    // Draw Chart Logic
+    // Draw Radar Chart
     function drawChart(player) {
         const ctx = document.getElementById('modal-chart').getContext('2d');
-        if (currentChart) currentChart.destroy(); // Clear old chart
+        if (currentChart) currentChart.destroy(); 
         
         currentChart = new Chart(ctx, {
             type: 'radar',
@@ -185,12 +205,12 @@ if (squadGrid) {
         });
     }
 
-    // Close Modal Listeners
+    // Modal Close Listeners
     closeModalBtn.addEventListener('click', () => modalOverlay.classList.add('hidden'));
     modalOverlay.addEventListener('click', (e) => {
         if (e.target === modalOverlay) modalOverlay.classList.add('hidden');
     });
 
-    // Initialize Grid
+    // Initialize Grid on load
     renderGrid();
 }
