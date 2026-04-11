@@ -11,7 +11,6 @@ if (currentTheme === 'light') {
 if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('light-mode');
-        
         let theme = 'dark';
         if (document.body.classList.contains('light-mode')) {
             theme = 'light';
@@ -90,7 +89,19 @@ const b3Roster = [
     }
 ];
 
-// --- 3. HOME PAGE LOGIC (Carousel) ---
+// --- 3. SCROLL REVEAL ENGINE ---
+const revealElements = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15 });
+revealElements.forEach(el => revealObserver.observe(el));
+
+// --- 4. HOME PAGE LOGIC (Carousel) ---
 const heroCarousel = document.getElementById('hero-carousel');
 if (heroCarousel) {
     const slides = document.querySelectorAll('.carousel-slide');
@@ -104,7 +115,7 @@ if (heroCarousel) {
     setInterval(nextSlide, 5000); // Rotates every 5 seconds
 }
 
-// --- 4. SQUAD PAGE LOGIC (Grid & 3D Modal) ---
+// --- 5. SQUAD PAGE LOGIC (Grid & 3D Modal) ---
 const squadGrid = document.getElementById('squad-grid');
 if (squadGrid) {
     const modalOverlay = document.getElementById('player-modal');
@@ -157,8 +168,8 @@ if (squadGrid) {
         modalOverlay.classList.remove('hidden');
         drawChart(player);
 
-        // Initialize the VanillaTilt 3D Effect
-        if (typeof VanillaTilt !== 'undefined') {
+        // Initialize the VanillaTilt 3D Effect (Only on Desktop)
+        if (typeof VanillaTilt !== 'undefined' && window.innerWidth > 768) {
             VanillaTilt.init(document.querySelector("#tilt-card"), {
                 max: 12,
                 speed: 400,

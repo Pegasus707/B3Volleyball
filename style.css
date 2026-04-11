@@ -16,6 +16,18 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* --- CINEMATIC FILM GRAIN --- */
+body::before {
+    content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none; z-index: 9999; opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+body.light-mode::before { display: none; }
+
+/* --- SCROLL REVEAL ENGINE --- */
+.reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
 /* --- NAVIGATION --- */
 .top-nav {
     position: fixed; top: 0; width: 100%; padding: 1.5rem 4rem;
@@ -31,20 +43,7 @@ body {
 .cta-btn { background: var(--text-main); color: var(--bg-pure); padding: 12px 24px; border-radius: 50px; font-weight: 600; font-size: 0.9rem; transition: transform 0.3s ease; }
 .cta-btn:hover { transform: scale(1.05); }
 
-/* --- THEME TOGGLE BUTTON --- */
-.theme-toggle-btn {
-    background: transparent;
-    border: 1px solid var(--border-subtle);
-    color: var(--text-main);
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 8px 12px;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+.theme-toggle-btn { background: transparent; border: 1px solid var(--border-subtle); color: var(--text-main); font-size: 1.2rem; cursor: pointer; padding: 8px 12px; border-radius: 50px; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
 .theme-toggle-btn:hover { background: var(--text-main); color: var(--bg-pure); }
 
 /* --- HERO SECTION --- */
@@ -53,12 +52,12 @@ body {
 .carousel-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.5s ease-in-out; }
 .carousel-slide.active { opacity: 1; }
 
+/* Placeholder Images - Update with your own */
 .slide-1 { background-image: url('https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?q=80&w=2000&auto=format&fit=crop'); }
 .slide-2 { background-image: url('https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=2000&auto=format&fit=crop'); }
 .slide-3 { background-image: url('https://images.unsplash.com/photo-1574880531551-7f9f30b910b8?q=80&w=2000&auto=format&fit=crop'); }
 
 .carousel-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 100%); }
-
 .hero-content { width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 4rem; z-index: 10; }
 .hero-text h1 { font-family: 'Oswald', sans-serif; font-size: 6rem; letter-spacing: -2px; line-height: 1; margin-bottom: 10px; }
 .tagline { font-family: 'Oswald', sans-serif; font-size: 1.5rem; color: var(--text-muted); letter-spacing: 6px; }
@@ -70,9 +69,9 @@ body {
 .location-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; align-items: center; }
 .section-title-alt { font-family: 'Oswald', sans-serif; font-size: 3rem; letter-spacing: 2px; margin-bottom: 1.5rem; }
 .location-description { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; }
-.address-details { margin-bottom: 3rem; }
 .location-tag { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; color: var(--text-main); border-bottom: 2px solid var(--text-main); margin-bottom: 1rem; padding-bottom: 4px; }
 .address-details p { font-size: 1.2rem; font-weight: 300; color: var(--text-main); margin-bottom: 5px; }
+.address-details { margin-bottom: 3rem; }
 .map-link-btn { font-family: 'Oswald', sans-serif; font-size: 1rem; color: var(--text-main); letter-spacing: 1px; transition: color 0.3s ease; }
 .map-link-btn:hover { color: var(--text-muted); }
 .map-wrapper { height: 500px; border-radius: 4px; overflow: hidden; border: 1px solid var(--border-subtle); filter: grayscale(1) invert(0.92) contrast(1.2); transition: filter 0.5s ease; }
@@ -84,12 +83,11 @@ body {
 .marquee-track span { padding: 0 2rem; }
 @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-33.33%); } }
 
-/* --- SQUAD PAGE HEADER --- */
+/* --- SQUAD PAGE --- */
 .page-header { text-align: center; margin-top: 120px; padding: 2rem 0; }
 .page-header h1 { font-family: 'Oswald', sans-serif; font-size: 4rem; letter-spacing: 2px; }
 .page-header p { color: var(--text-muted); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; }
 
-/* --- SQUARE PORTRAIT GRID --- */
 .squad-container { max-width: 1400px; margin: 0 auto; padding: 2rem 4rem 5rem 4rem; }
 .square-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
 .square-portrait { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; cursor: pointer; background-color: #111; }
@@ -99,29 +97,24 @@ body {
 .portrait-name { font-family: 'Oswald', sans-serif; font-size: 1.8rem; text-transform: uppercase; line-height: 1; margin-bottom: 5px; color: #ffffff; }
 .portrait-ovr { font-size: 0.9rem; color: #dddddd; font-weight: 600; letter-spacing: 1px; }
 
-/* --- CLASH ROYALE MODAL --- */
+/* --- THE 3D MODAL --- */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 1; transition: opacity 0.3s ease; }
 .modal-overlay.hidden { opacity: 0; pointer-events: none; }
 
-/* Constrain max height so it never touches screen edges */
+/* Sizing and Fixes for the Modal Container */
 .modal-content { position: relative; width: 100%; max-width: 420px; max-height: 90vh; transform: scale(1); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .modal-overlay.hidden .modal-content { transform: scale(0.9) translateY(30px); }
 
-/* Move Close Button INSIDE the card with a sleek background */
+/* Close Button locked INSIDE the card space */
 .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); border: none; color: #ffffff; font-size: 1.8rem; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 50; transition: background 0.3s ease; }
 .close-btn:hover { background: rgba(255, 255, 255, 0.2); }
 
-/* --- 3D POP & TRAITS (VANILLATILT) --- */
-/* Added overflow-y so the card scrolls if the screen is tiny */
+/* The Card Itself */
 .player-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 4px; overflow-y: auto; overflow-x: hidden; max-height: 90vh; box-shadow: 0 20px 40px rgba(0,0,0,0.8); transform-style: preserve-3d; perspective: 1000px; }
-
-/* Hide the scrollbar for a cleaner look */
 .player-card::-webkit-scrollbar { display: none; }
 .player-card { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Reduced image height from 320px to 260px */
 .card-image { width: 100%; height: 260px; background-size: cover; background-position: center; border-bottom: 1px solid var(--border-subtle); filter: grayscale(100%); }
-
 .card-content { padding: 2rem; transform: translateZ(40px); } 
 .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 1rem; }
 .player-name { font-family: 'Oswald', sans-serif; font-size: 2.5rem; line-height: 1; text-transform: uppercase; }
@@ -131,7 +124,7 @@ body {
 .bio { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
 .chart-container { position: relative; height: 200px; width: 100%; }
 
-/* --- LIGHT MODE OVERRIDES --- */
+/* --- LIGHT MODE VARIABLES --- */
 body.light-mode {
     --bg-pure: #ffffff;
     --bg-card: #f5f5f7;
@@ -142,9 +135,9 @@ body.light-mode {
 body.light-mode .top-nav { background: linear-gradient(to bottom, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 100%); }
 body.light-mode .top-nav.solid-nav { background: var(--bg-pure); }
 body.light-mode .map-wrapper { filter: grayscale(1) contrast(1.1); }
-body.light-mode .location-icon { color: #000000; }
-body.light-mode .chart-container canvas { filter: invert(1); } /* Inverts white lines to black */
+body.light-mode .chart-container canvas { filter: invert(1); } 
 body.light-mode .trait-badge { background: var(--bg-pure); color: var(--text-main); border: 1px solid var(--text-main); }
+
 
 /* =======================================================
    📱 THE ULTIMATE MOBILE PRO OPTIMIZATION (NATIVE APP FEEL)
@@ -152,15 +145,14 @@ body.light-mode .trait-badge { background: var(--bg-pure); color: var(--text-mai
 html { scroll-behavior: smooth; }
 
 @media (max-width: 768px) {
-    /* 1. Viewport Fix: Ignores the annoying Safari URL bar jump */
+    /* Viewport Fix */
     .hero { height: 100dvh; }
     
-    /* 2. Glassmorphic Compact Header */
+    /* Glassmorphic Compact Header */
     .top-nav { 
         padding: 0.8rem 1.2rem; 
         background: rgba(0, 0, 0, 0.6); 
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
     body.light-mode .top-nav { background: rgba(255, 255, 255, 0.85); border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
@@ -171,51 +163,39 @@ html { scroll-behavior: smooth; }
     .cta-btn { padding: 8px 12px; font-size: 0.75rem; }
     .theme-toggle-btn { padding: 4px 8px; font-size: 1.1rem; }
     
-    /* 3. Editorial Typography & Spacing */
+    /* Editorial Typography & Spacing */
     .hero-content { padding: 0 1.2rem; justify-content: center; margin-bottom: 5vh; }
     .hero-text h1 { font-size: 3.5rem; letter-spacing: -1px; margin-bottom: 5px; }
     .tagline { font-size: 0.85rem; letter-spacing: 4px; }
-    
-    .location-box { width: 100%; flex-direction: column; align-items: flex-start; padding: 1.2rem; }
     .primary-btn { width: 100%; text-align: center; font-size: 1rem; padding: 15px; margin-top: 10px; }
     
     .page-header { margin-top: 80px; padding: 1rem 1.2rem; }
     .page-header h1 { font-size: 3.2rem; }
     .squad-container { padding: 1rem 1.2rem 4rem 1.2rem; }
     
-    /* 4. Perfect 2-Column App Grid */
+    /* Perfect 2-Column App Grid */
     .square-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .portrait-name { font-size: 1.1rem; margin-bottom: 0; }
     .portrait-ovr { font-size: 0.75rem; }
     .portrait-overlay { padding: 1rem 0.8rem; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 100%); }
     
-    /* 5. iOS Style Bottom-Sheet Modal (THE MASTERPIECE) */
-    .modal-overlay { align-items: flex-end; /* Snaps modal to the bottom edge */ }
+    /* iOS Style Bottom-Sheet Modal */
+    .modal-overlay { align-items: flex-end; }
     
     .modal-content { 
-        max-width: 100%; 
-        width: 100%; 
-        max-height: 88vh; /* Leaves a tiny gap at the top of the screen */
-        border-radius: 28px 28px 0 0; /* Huge rounded top corners */
+        max-width: 100%; width: 100%; max-height: 88vh; 
+        border-radius: 28px 28px 0 0; 
         transform: translateY(0) scale(1) !important; 
         transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
     }
-    
-    /* Smooth slide-down animation when closing */
     .modal-overlay.hidden .modal-content { transform: translateY(100%) scale(1) !important; }
     
     .player-card { border-radius: 28px 28px 0 0; border: none; border-top: 1px solid var(--border-subtle); box-shadow: 0 -10px 40px rgba(0,0,0,0.8); }
     .card-image { height: 240px; border-radius: 28px 28px 0 0; }
     
-    /* Sleek Floating Close Button */
     .close-btn { 
-        top: 15px; right: 15px; 
-        width: 38px; height: 38px; 
-        font-size: 1.8rem; 
-        background: rgba(0,0,0,0.6);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: 50%;
+        top: 15px; right: 15px; width: 38px; height: 38px; font-size: 1.8rem; 
+        background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     }
     
     .card-content { padding: 1.5rem; }
@@ -227,6 +207,6 @@ html { scroll-behavior: smooth; }
     .section-title-alt { font-size: 2.5rem; }
     .map-wrapper { height: 320px; margin-top: 1.5rem; border-radius: 12px; }
     
-    /* 6. Professional Polish: Removes Android/iOS blue tap highlight boxes */
+    /* Removes Android/iOS blue tap highlight boxes */
     * { -webkit-tap-highlight-color: transparent; }
 }
