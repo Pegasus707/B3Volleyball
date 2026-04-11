@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B3 VOLLEYBALL | The Squad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-squad">
+
+    <nav class="top-nav solid-nav">
+        <a href="index.html" class="nav-logo">B3</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="https://forms.gle/KVP5RdC3Vj7K8ARz7" target="_blank" rel="noopener noreferrer" class="cta-btn">Want to play together?</a>
+            <button id="theme-toggle" class="theme-toggle-btn">☀️</button>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <h1>THE SQUAD</h1>
+        <p>Click a player to view elite stats.</p>
+    </section>
+
+    <main class="squad-container">
+        <div id="squad-grid" class="square-grid">
+            </div>
+    </main>
+
+    <div id="player-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="close-btn" id="close-modal">×</button>
+            <div id="modal-card-container">
+                </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
