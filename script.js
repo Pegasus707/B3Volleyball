@@ -1,26 +1,13 @@
-// --- 1. THEME TOGGLE LOGIC ---
-const themeToggleBtn = document.getElementById('theme-toggle');
-const currentTheme = localStorage.getItem('b3-theme');
 
-// Apply saved theme immediately
-if (currentTheme === 'light') {
-    document.body.classList.add('light-mode');
-    if(themeToggleBtn) themeToggleBtn.textContent = '🌙';
-}
-
-if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
-        document.body.classList.toggle('light-mode');
-        let theme = 'dark';
-        if (document.body.classList.contains('light-mode')) {
-            theme = 'light';
-            themeToggleBtn.textContent = '🌙'; 
-        } else {
-            themeToggleBtn.textContent = '☀️'; 
-        }
-        localStorage.setItem('b3-theme', theme);
-    });
-}
+// --- 1.2 NAVIGATION SCROLL LOGIC ---
+const topNav = document.querySelector('.top-nav');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        topNav.classList.add('solid-nav');
+    } else {
+        topNav.classList.remove('solid-nav');
+    }
+});
 
 // --- 2. B3 MASTER ROSTER DATA (With Traits) ---
 const b3Roster = [
@@ -224,4 +211,65 @@ if (squadGrid) {
 
     // Initialize Grid on load
     renderGrid();
+}
+
+// --- 6. PRELOADER & CURSOR LOGIC ---
+const preloader = document.getElementById('preloader');
+if (preloader) {
+    // Reveal page on load
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            preloader.classList.add('hidden');
+            setTimeout(() => preloader.style.display = 'none', 800);
+        }, 800); // 0.8s minimum show time for effect
+    });
+
+    // Seamless page transition on click
+    document.querySelectorAll('a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetUrl = this.href;
+            const currentHost = window.location.host;
+            
+            // Only trigger on internal links that aren't opening new tabs or hash links
+            if (this.hostname === currentHost && !this.hasAttribute('target') && !targetUrl.includes('#')) {
+                e.preventDefault();
+                
+                // Bring back the curtain
+                preloader.style.display = 'flex';
+                preloader.offsetHeight; // Trigger reflow
+                preloader.classList.remove('hidden');
+                
+                // Navigate after curtain falls
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 800);
+            }
+        });
+    });
+}
+
+const cursorDot = document.getElementById('cursor-dot');
+const cursorOutline = document.getElementById('cursor-outline');
+
+if (cursorDot && cursorOutline && window.innerWidth > 768) {
+    window.addEventListener('mousemove', (e) => {
+        const posX = e.clientX;
+        const posY = e.clientY;
+        
+        cursorDot.style.left = `${posX}px`;
+        cursorDot.style.top = `${posY}px`;
+        
+        // slight delay for outline (magnetic follow effect)
+        cursorOutline.animate({
+            left: `${posX}px`,
+            top: `${posY}px`
+        }, { duration: 250, fill: "forwards" });
+    });
+
+    // Add hover states to interactables
+    const interactables = document.querySelectorAll('a, button, .square-portrait, .theme-toggle-btn');
+    interactables.forEach(el => {
+        el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover-state'));
+        el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover-state'));
+    });
 }
