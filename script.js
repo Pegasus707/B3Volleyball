@@ -247,29 +247,3 @@ if (preloader) {
         });
     });
 }
-
-const cursorDot = document.getElementById('cursor-dot');
-const cursorOutline = document.getElementById('cursor-outline');
-
-if (cursorDot && cursorOutline && window.innerWidth > 768) {
-    window.addEventListener('mousemove', (e) => {
-        const posX = e.clientX;
-        const posY = e.clientY;
-        
-        cursorDot.style.left = `${posX}px`;
-        cursorDot.style.top = `${posY}px`;
-        
-        // slight delay for outline (magnetic follow effect)
-        cursorOutline.animate({
-            left: `${posX}px`,
-            top: `${posY}px`
-        }, { duration: 250, fill: "forwards" });
-    });
-
-    // Add hover states to interactables
-    const interactables = document.querySelectorAll('a, button, .square-portrait, .theme-toggle-btn');
-    interactables.forEach(el => {
-        el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover-state'));
-        el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover-state'));
-    });
-}
