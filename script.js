@@ -115,7 +115,7 @@ if (squadGrid) {
         b3Roster.forEach((player, index) => {
             const squareHTML = `
                 <div class="square-portrait" onclick="openPlayerCard(${index})">
-                    <img src="${player.image}" alt="${player.name}" class="portrait-img">
+                    <img src="${player.image}" alt="${player.name}" class="portrait-img" loading="lazy" fetchpriority="low" decoding="async">
                     <div class="portrait-overlay">
                         <span class="portrait-name">${player.name}</span>
                         <span class="portrait-ovr">${player.ovr} OVR</span>
